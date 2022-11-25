@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msaidi <msaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/24 16:11:30 by msaidi            #+#    #+#             */
-/*   Updated: 2022/11/25 15:43:24 by msaidi           ###   ########.fr       */
+/*   Created: 2022/11/24 16:14:55 by msaidi            #+#    #+#             */
+/*   Updated: 2022/11/25 17:24:07 by msaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <unistd.h>
-# include <stdarg.h>
+int	ft_putnbr(int n)
+{
+	long int	nb;
+	int			len;
 
-# define B16 "0123456789abcdef"
-# define B16U "0123456789ABCDEF"
-
-int	ft_printf(const char *s, ...);
-int	ft_strlen(const char *s);
-int	ft_putchar(char c);
-int	ft_putstr(char *s);
-int	ft_putnbr(int n);
-int	ft_putuns(unsigned int n);
-int	ft_puthexa(unsigned long n, char *base);
-
-#endif
+	nb = n;
+	len = 0;
+	if (nb < 0)
+	{
+		nb *= -1;
+	len += write(1, "-", 1);
+	}
+	if (nb > 9)
+		len += ft_putnbr(nb / 10);
+	len += write(1, &"0123456789"[nb % 10], 1);
+	if (len < 0)
+		return (-1);
+	return (len);
+}
